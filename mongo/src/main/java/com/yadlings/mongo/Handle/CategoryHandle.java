@@ -39,14 +39,14 @@ public class CategoryHandle {
 
     public Mono<ServerResponse> update(ServerRequest serverRequest) {
         return ServerResponse
-                .status(200)
+                .ok()
                 .body(
                         serverRequest.bodyToMono(Category.class)
                                 .flatMap(newCategory->{
                                     return categoryRepository.findById(serverRequest.pathVariable("id"))
                                             .flatMap(category->{
-                                                categoryRepository.delete(category);
-                                                return categoryRepository.insert(newCategory);
+                                                newCategory.setId(category.getId());
+                                                return categoryRepository.save(newCategory);
                                             });
 
                                 }),
@@ -54,12 +54,11 @@ public class CategoryHandle {
                 );
 
     }
-
     public Mono<ServerResponse> insert(ServerRequest serverRequest) {
         return ServerResponse
                 .status(200)
                 .body(serverRequest.bodyToMono(Category.class)
-                                .doOnNext(categoryRepository::insert),
+                        .flatMap(categoryRepository::insert),
                         Category.class);
     }
 }

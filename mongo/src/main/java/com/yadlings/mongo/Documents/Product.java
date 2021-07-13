@@ -18,5 +18,4 @@ public class Product {
     private String name;
     private String url;
     private int price;
-    private Category category;
 }
