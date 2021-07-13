@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://nindaba:mongodb@cluster0.jumeb.mongodb.net/spring?retryWrites=true&w=majority
